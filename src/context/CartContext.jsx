@@ -1,14 +1,14 @@
 import { useState, createContext, useContext, useEffect } from "react";
 
 export const CartContext = createContext({
-    cart: [],
-    addItem: (product, quantity) => {},
-    removeItem: () => {},
-    totalQuantity: 0,
-    total: 0,
-    clearCart: () => {},
-    getProductQuantity: () => {},
-  });
+  cart: [],
+  addItem: (product, quantity) => {},
+  removeItem: () => {},
+  totalQuantity: 0,
+  total: 0,
+  clearCart: () => {},
+  getProductQuantity: () => {},
+});
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
@@ -41,14 +41,23 @@ export const CartProvider = ({ children }) => {
     }
   };
   
-  
 
   const isInCart = (id) => {
     return cart.some((prod) => prod.id === id);
   };
 
-  const removeItem = (id) => {
-    const cartUpdated = cart.filter((prod) => prod.id !== id);
+  const removeItem = (id, quantityToRemove = 1) => {
+    const cartUpdated = cart.map((prod) => {
+      if (prod.id === id) {
+        const updatedQuantity = Math.max(prod.quantity - quantityToRemove, 0);
+        return {
+          ...prod,
+          quantity: updatedQuantity,
+        };
+      } else {
+        return prod;
+      }
+    });
     setCart(cartUpdated);
   };
 

@@ -11,13 +11,15 @@ const CartView = () => {
         <div className="col-md-8">
           {cart.map(prod => (
             <div key={prod.id} className="card mb-3 bg-secondary">
-              <img src={`assets/${prod.img}`} alt={prod.name} className="card-img-top" />
+              <img src={`assets/${prod.img}`} alt={prod.name} className="card-img-top" style={{ maxWidth: '300px', maxHeight: '400px' }} />
               <div className="card-body">
                 <h3 className="card-title text-light">{prod.name}</h3>
                 <p className="card-text text-light">Cantidad: {prod.quantity}</p>
-                <p className="card-text text-light">Precio por unidad: ${prod.price}</p>
-                <p className="card-text text-light">Subtotal: ${prod.quantity * prod.price}</p>
-                <button onClick={() => removeItem(prod.id)} className="btn btn-danger">Remover</button>
+                <p className="card-text text-light">Precio por unidad: ARS ${prod.price}</p>
+                <p className="card-text text-light">Subtotal: ARS ${prod.quantity * prod.price}</p>
+                <button onClick={() => removeItem(prod.id)} className="btn btn-danger">
+                  Remover 
+                </button>
               </div>
             </div>
           ))}
@@ -26,7 +28,7 @@ const CartView = () => {
           <div className="card bg-secondary">
             <div className="card-body">
               <h3 className="card-title text-light">Resumen</h3>
-              <p className="card-text text-light">Total: ${total}</p>
+              <p className="card-text text-light">Total: ARS ${total}</p>
               <Link to='/checkout' className='btn btn-success'>Checkout</Link>
             </div>
           </div>
