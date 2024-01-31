@@ -1,0 +1,80 @@
+.navbar {
+  background-color: #1C1C1C;
+  padding: 10px;
+  width: 100%;
+}
+
+.brandContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  
+}
+
+.logo {
+  width: 160px;
+  height: 160px;
+  margin-left: 8rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-family: 'Tilt Prism';
+  font-size: 60px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: aliceblue;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 70%; 
+  
+}
+
+.buttonContainer button {
+  background-color: #343a40; 
+  color: white; 
+  font-size: 20px;
+  font-family: 'Tilt Prism';
+  margin-top: 30px;
+}
+
+.cartContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
+.Option {
+  color: white;
+  background-color: #343a40;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.Option:hover {
+  background-color: #555;
+}
+
+.ActiveOption {
+  background-color: #555;
+}

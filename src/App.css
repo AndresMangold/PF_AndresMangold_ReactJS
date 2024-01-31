@@ -1,0 +1,14 @@
+html, body {
+  min-height: 100vh;
+}
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+body {
+  background-color: #696960; 
+  padding: 0;
+}

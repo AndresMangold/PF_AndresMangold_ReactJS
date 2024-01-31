@@ -1,0 +1,33 @@
+
+.Controls {
+    /* display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;  */
+    /* width: 100%;  */
+    margin-bottom: 10px; 
+}
+
+.btn {
+    background-color: #212529; 
+    color: white; 
+    border: 1px solid #495057; 
+    padding: 8px 12px; 
+    cursor: pointer; 
+}
+
+.btn:hover {
+    background-color: #495057; 
+}
+
+.Controls button:nth-child(1) {
+    order: 3; 
+}
+
+.Controls button:nth-child(2) {
+    order: 2; 
+}
+
+.Controls button:nth-child(3) {
+    order: 1; 
+}
+

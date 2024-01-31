@@ -1,0 +1,7 @@
+.CardItem {
+    display: flex !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 16px;
+    width: 100% !important;
+  }
+  
