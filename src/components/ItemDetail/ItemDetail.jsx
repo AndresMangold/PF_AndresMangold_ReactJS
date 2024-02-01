@@ -3,6 +3,7 @@ import{ useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../../context/CartContext';
 
+
 const ItemDetail = ({ id, name, img, description, price, stock }) => {
   
   const [quantityAdded, setQuantityAdded] = useState(0)
@@ -41,7 +42,7 @@ const ItemDetail = ({ id, name, img, description, price, stock }) => {
             <footer className='card-footer'>
               {
                 quantityAdded > 0 ? (
-                  <Link to='/cart' className='Option'>Finalizar compra</Link>
+                  <Link to='/cart' className='Option text-light font-weight-bold fs-4'>¡Finalizar compra!</Link>
                 ) : (
                   <ItemCount initial={1} stock={stock} onAdd={handleOnAdd} />
                 )

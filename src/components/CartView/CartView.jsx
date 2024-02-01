@@ -1,24 +1,34 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 const CartView = () => {
   const { cart, total, removeItem } = useCart();
 
+  const handleRemoveItem = (productId) => {
+    removeItem(productId, 1); 
+  };
+
   return (
-    <div className="container mt-5 bg-dark p-4"> 
-      <h1 className="text-light">Tus Productos</h1> 
+    <div className="container mt-5 bg-dark p-4">
+      <h1 className="text-light">Tus Productos</h1>
       <div className="row">
         <div className="col-md-8">
-          {cart.map(prod => (
+          {cart.map((prod) => (
             <div key={prod.id} className="card mb-3 bg-secondary">
-              <img src={`assets/${prod.img}`} alt={prod.name} className="card-img-top" style={{ maxWidth: '300px', maxHeight: '400px' }} />
+              <img
+                src={`assets/${prod.img}`}
+                alt={prod.name}
+                className="card-img-top"
+                style={{ maxWidth: '300px', maxHeight: '400px' }}
+              />
               <div className="card-body">
                 <h3 className="card-title text-light">{prod.name}</h3>
                 <p className="card-text text-light">Cantidad: {prod.quantity}</p>
                 <p className="card-text text-light">Precio por unidad: ARS ${prod.price}</p>
                 <p className="card-text text-light">Subtotal: ARS ${prod.quantity * prod.price}</p>
-                <button onClick={() => removeItem(prod.id)} className="btn btn-danger">
-                  Remover 
+                <button onClick={() => handleRemoveItem(prod.id)} className="btn btn-danger">
+                  Remover
                 </button>
               </div>
             </div>
@@ -29,13 +39,15 @@ const CartView = () => {
             <div className="card-body">
               <h3 className="card-title text-light">Resumen</h3>
               <p className="card-text text-light">Total: ARS ${total}</p>
-              <Link to='/checkout' className='btn btn-success'>Checkout</Link>
+              <Link to="/checkout" className="btn btn-success">
+                Checkout
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default CartView;

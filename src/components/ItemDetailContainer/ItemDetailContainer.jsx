@@ -1,29 +1,32 @@
-import { useState, useEffect } from 'react'
-import { getProductsById } from '../../asyncMock'
-import ItemDetail from '../ItemDetail/ItemDetail'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import ItemDetail from '../ItemDetail/ItemDetail';
+import { useParams } from 'react-router-dom';
+import { db } from '../../services/firebase/firebaseConfig';
+import { getDoc, doc } from 'firebase/firestore'; 
 
 const ItemDetailContainer = () => {
-    const [product, setProducts] = useState(null)
+  const [product, setProduct] = useState(null);
+  const { itemId } = useParams();
 
-    const { itemId } = useParams()
+  useEffect(() => {
+    const productDocument = doc(db, 'products', itemId); 
+    getDoc(productDocument)
+      .then((queryDocumentSnapshot) => {
+        const fields = queryDocumentSnapshot.data(); 
+        const productAdapted = { id: queryDocumentSnapshot.id, ...fields };
+        setProduct(productAdapted);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [itemId]);
 
-    useEffect(() => {
-        getProductsById(itemId)
-            .then(response => {
-                setProducts(response)
-            })
-            .catch(error => {
-                console.error(error)
-            })
-    }, [itemId])
+  return (
+    <div className='ItemDetailContainer'>
+      <h4 className='tituloDetalle font-weight-bold text-white mb-5 mt-5'>Detalles</h4>
+      <ItemDetail {...product} />
+    </div>
+  );
+};
 
-    return (
-        <div className='ItemDetailContainer'>
-            <h4 className='tituloDetalle font-weight-bold text-white mb-5 mt-5'>Detalles</h4>
-            <ItemDetail {...product} />
-        </div>
-    )
-}
-
-export default ItemDetailContainer
+export default ItemDetailContainer;

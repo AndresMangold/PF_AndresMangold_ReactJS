@@ -10,7 +10,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg text-center" style={{ backgroundColor: "#1C1C1C" }}>
+    <nav className="navbar navbar-expand-lg text-center sticky-top" style={{ backgroundColor: "#1C1C1C" }}>
       <div className={`container-fluid ${styles.brandContainer}`}>
         <Link to='/'>
           <div className={`col col-12 col-lg-2 ${styles.logoContainer}`}>
