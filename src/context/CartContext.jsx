@@ -58,7 +58,10 @@ export const CartProvider = ({ children }) => {
         return prod;
       }
     });
-    setCart(cartUpdated);
+  
+    const updatedCart = cartUpdated.filter((prod) => prod.quantity > 0);
+  
+    setCart(updatedCart);
   };
 
   const clearCart = () => {
