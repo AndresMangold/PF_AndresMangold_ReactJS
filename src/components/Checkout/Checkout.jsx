@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { collection, getDocs, where, query, documentId, writeBatch, addDoc } from "firebase/firestore";
 import { useCart } from "../../context/CartContext";
-// import OrderForm from '../OrderForm/OrderForm';
-import { db } from "../../services/firebase/firebaseConfig";
 import { Form, Button } from 'react-bootstrap';
+import { useNotification } from "../../notifications/NotificationService";
+import { addDoc, collection, writeBatch, getDocs, query, where, documentId } from "firebase/firestore";
+import { db } from "../../services/firebase/firebaseConfig";
 
 const Checkout = () => {
     const [loading, setLoading] = useState(false);
@@ -14,7 +14,7 @@ const Checkout = () => {
         phone: ''
     });
     const { cart, total, clearCart } = useCart();
-    const [outOfStock, setOutOfStock] = useState([]);
+    const { showNotification } = useNotification();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -24,36 +24,54 @@ const Checkout = () => {
         });
     }
 
-    const createOrder = async () => {
+    const createOrderHandler = async () => {
         setLoading(true);
         try {
+            const batch = writeBatch(db);
+            const outOfStock = [];
+
             const objOrder = {
-                buyer: { 
+                buyer: {
                     name: buyerInfo.name,
                     email: buyerInfo.email,
                     phone: buyerInfo.phone
                 },
-                userData,
                 items: cart,
                 total 
-            }
+            };
 
+            const ids = cart.map(prod => prod.id);
+            const productsCollection = query(collection(db, 'products'), where(documentId(), 'in', ids));
+
+            const querySnapshot = await getDocs(productsCollection);
+            const { docs } = querySnapshot;
+
+            docs.forEach(doc => {
+                const fields = doc.data();
+                const stockDb = fields.stock;
+
+                const productsAddedToCart = cart.find(prod => prod.id === doc.id);
+                const prodQuantity = productsAddedToCart.quantity;
+
+                if (stockDb >= prodQuantity) {
+                    batch.update(doc.ref, { stock: stockDb - prodQuantity });
+                } else {
+                    outOfStock.push({ id: doc.id, ...fields });
+                }
+            });
 
             if (outOfStock.length === 0) {
-                batch.commit();
+                await batch.commit();
 
                 const orderCollection = collection(db, 'orders');
-                const { id } = await addDoc(orderCollection, objOrder);
-                
-                setOrderId(id);
+                const docRef = await addDoc(orderCollection, objOrder);
 
+                setOrderId(docRef.id);
                 clearCart();
             } else {
-              
                 showNotification('error', 'Hay productos que no tienen stock disponible');
             }
         } catch (error) {
-            
             showNotification('error', 'Hubo un error al crear la orden');
         } finally {
             setLoading(false);
@@ -61,33 +79,33 @@ const Checkout = () => {
     }
 
     if (loading) {
-        return <h1>Se está generando su orden, espere por favor...</h1>
+        return <h1 className="text-light fw-bold text-center mt-5 p-3 bg-secondary border rounded">Se está generando su orden, espere por favor...</h1>
     }
 
     if (orderId) {
-        return <h1>El id de su compra es: {orderId}</h1>
+        return <h1 className="text-light fw-bold text-center mt-5 p-3 bg-secondary border rounded">El id de su compra es: {orderId}</h1>
     }
 
     return (
         <div className="text-center"> 
-            <h1>Checkout</h1>
+            <h1 className="text-light">Checkout</h1>
             <Form className="mx-auto w-25 mt-4"> 
                 <Form.Group controlId="formName">
-                    <Form.Label>Nombre</Form.Label>
+                    <Form.Label className="text-light">Nombre</Form.Label>
                     <Form.Control type="text" placeholder="Ingrese su nombre" name="name" value={buyerInfo.name} onChange={handleInputChange} />
                 </Form.Group>
 
                 <Form.Group controlId="formEmail" className="mt-3"> 
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label className="text-light">Email</Form.Label>
                     <Form.Control type="email" placeholder="Ingrese su email" name="email" value={buyerInfo.email} onChange={handleInputChange} />
                 </Form.Group>
 
                 <Form.Group controlId="formPhone" className="mt-3"> 
-                    <Form.Label>Teléfono</Form.Label>
+                    <Form.Label className="text-light">Teléfono</Form.Label>
                     <Form.Control type="tel" placeholder="Ingrese su teléfono" name="phone" value={buyerInfo.phone} onChange={handleInputChange} />
                 </Form.Group>
 
-                <Button variant="dark" onClick={createOrder} className="mt-3"> 
+                <Button variant="dark" onClick={createOrderHandler} className="mt-3"> 
                     Generar orden
                 </Button>
             </Form>

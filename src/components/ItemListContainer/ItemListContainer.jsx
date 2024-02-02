@@ -25,6 +25,8 @@ const ItemListContainer = ({ greeting }) => {
           return { id: doc.id, ...fields };
         });
 
+        const sortedProducts = productsAdapted.sort((a, b) => a.order - b.order);
+
         setProducts(productsAdapted);
       })
       .catch((error) => {
