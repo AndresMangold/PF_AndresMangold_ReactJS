@@ -23,7 +23,7 @@ const ItemDetailContainer = () => {
 
   return (
     <div className='ItemDetailContainer'>
-      <h4 className='tituloDetalle font-weight-bold text-white mb-5 mt-5'>Detalles</h4>
+      <h1 className='tituloDetalle font-weight-bold text-white mb-5 mt-5'>Detalles</h1>
       <ItemDetail {...product} />
     </div>
   );
