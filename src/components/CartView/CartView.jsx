@@ -1,13 +1,19 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-
+import { useNotification, showBootstrapAlert } from "../../notification/NotificationService";
 
 const CartView = () => {
   const { cart, total, removeItem } = useCart();
+  const { showNotification } = useNotification();
 
-  const handleRemoveItem = (productId) => {
-    removeItem(productId, 1);
+  const handleRemoveItem = async (productId, productName) => {
+    try {
+      await removeItem(productId, 1);
+      showNotification('success', `Producto ${productName} se removió exitosamente`);
+      showBootstrapAlert('success', 'El producto se removió con éxito');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -15,25 +21,32 @@ const CartView = () => {
       <h1 className="text-light">Tus Productos</h1>
       <div className="row">
         <div className="col-md-8">
-          {cart.map((prod) => (
-            <div key={prod.id} className="card mb-3 bg-secondary">
-              <img
-                src={`assets/${prod.img}`}
-                alt={prod.name}
-                className="card-img-top"
-                style={{ maxWidth: '300px', maxHeight: '400px' }}
-              />
-              <div className="card-body">
-                <h3 className="card-title text-light">{prod.name}</h3>
-                <p className="card-text text-light">Cantidad: {prod.quantity}</p>
-                <p className="card-text text-light">Precio por unidad: ARS ${prod.price}</p>
-                <p className="card-text text-light border-top border-bottom border-white fw-bold">Subtotal: ARS ${prod.quantity * prod.price}</p>
-                <button onClick={() => handleRemoveItem(prod.id)} className="btn btn-danger">
-                  Remover
-                </button>
+          {cart.length > 0 ? (
+            cart.map((prod) => (
+              <div key={prod.id} className="card mb-3 bg-secondary">
+                <img
+                  src={`assets/${prod.img}`}
+                  alt={prod.name}
+                  className="card-img-top"
+                  style={{ maxWidth: '300px', maxHeight: '400px' }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                  }}
+                />
+                <div className="card-body">
+                  <h3 className="card-title text-light">{prod.name}</h3>
+                  <p className="card-text text-light">Cantidad: {prod.quantity}</p>
+                  <p className="card-text text-light">Precio por unidad: ARS ${prod.price}</p>
+                  <p className="card-text text-light border-top border-bottom border-white fw-bold">Subtotal: ARS ${prod.quantity * prod.price}</p>
+                  <button onClick={() => handleRemoveItem(prod.id, prod.name)} className="btn btn-danger">
+                    Remover
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-light">No hay productos en el carrito.</p>
+          )}
         </div>
         <div className="col-md-4">
           <div className="card bg-secondary">
@@ -50,8 +63,9 @@ const CartView = () => {
             </div>
           </div>
         </div>
-
       </div>
+
+      <div id="messages-container"></div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import Swal from 'sweetalert2';
 
 const NotificationContext = createContext({
@@ -48,3 +48,16 @@ export const NotificationProvider = ({ children }) => {
 export const useNotification = () => {
     return useContext(NotificationContext)
 }
+
+export const showBootstrapAlert = (type, message) => {
+    const alertElement = document.createElement('div');
+    alertElement.classList.add('alert', `alert-${type}`);
+    alertElement.textContent = message;
+  
+    const messagesContainer = document.getElementById('messages-container');
+    messagesContainer.appendChild(alertElement);
+  
+    setTimeout(() => {
+      alertElement.remove();
+    }, 3000);
+  };

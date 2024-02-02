@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { Form, Button } from 'react-bootstrap';
-import { useNotification } from "../../notifications/NotificationService";
+import { useNotification } from "../../notification/NotificationService";
 import { addDoc, collection, writeBatch, getDocs, query, where, documentId } from "firebase/firestore";
 import { db } from "../../services/firebase/firebaseConfig";
 
