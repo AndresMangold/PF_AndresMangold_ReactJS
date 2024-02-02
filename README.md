@@ -44,7 +44,7 @@ npm install firebase@^10.7.2
 npm install react-icons@^5.0.1
 ```
 
-[React-reouter]
+[React-router]
 ```sh
 npm install react-router-dom@^6.21.1
 ```
