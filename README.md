@@ -9,6 +9,8 @@ This program simulates an E-commerce platform, providing the following functiona
 # Technologies
 
 This application is developed using ReactJS as part of a course on the same technology. Its modules are designed following the architecture and dynamics of a shopping cart.
+To develop this app I use [Vite] as a building tool. 
+The repository is uploaded on Github ```https://github.com/AndresMangold/PF-AndresMangold.git``` . After installation, the app will run using the ```npm run dev``` command on the projetc's terminal.
 
 # Dependencies
 

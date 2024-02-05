@@ -25,7 +25,7 @@ const CartView = () => {
             cart.map((prod) => (
               <div key={prod.id} className="card mb-3 bg-secondary">
                 <img
-                  src={`assets/${prod.img}`}
+                  src={`public/assets/${prod.img}`}
                   alt={prod.name}
                   className="card-img-top"
                   style={{ maxWidth: '300px', maxHeight: '400px' }}
