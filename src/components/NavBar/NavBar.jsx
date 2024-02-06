@@ -13,7 +13,7 @@ const NavBar = () => {
       <div className={`container-fluid ${styles.brandContainer}`}>
         <Link to='/'>
           <div className={`col col-12 col-lg-2 ${styles.logoContainer}`}>
-            <img src="../img/Logo VM Woodworking_1.png" alt="Logo" className={styles.logo} />
+            <img src="public\assets\Logo VM WoodWorking_1.png" alt="Logo" className={styles.logo} />
           </div>
         </Link>
         <div className={`col col-12 col-lg-4 ${styles.titleContainer} d-flex align-items-center`}>

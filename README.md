@@ -59,5 +59,4 @@ npm install sweetalert2@^11.10.4
 
 # Deploy
 
-
-[Deploy from Vercel](https://pf-andres-mangold-react-js-vy9e.vercel.app/)
+[Deploy from Vercel](https://ecommerce-mangold-reactjs.vercel.app/)
