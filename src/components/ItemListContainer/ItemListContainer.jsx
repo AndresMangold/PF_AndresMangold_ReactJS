@@ -36,7 +36,7 @@ const ItemListContainer = ({ greeting }) => {
                 <div className="text-light">
                     <h3 className={`${styles.h3} h3`}>Cargando los productos...</h3>
                     <div className="spinner-border text-light" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">Cargando...</span>
                     </div>
                 </div>
             ) : (
