@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 import SearchBar from '../SearchBar/SearchBar';
 import styles from './NavBar.module.css';
-// import LogoVMWoodworking_1.jpg from '../../public/assets/LogoVMWoodWorking_1.jpg';
+import LogoVM from '/assets/LogoVMWoodWorking_1.jpg';
 
 const NavBar = () => {
   const handleSearch = (searchTerm) => {
@@ -14,7 +14,7 @@ const NavBar = () => {
       <div className={`container-fluid ${styles.brandContainer}`}>
         <Link to='/'>
           <div className={`col col-12 col-lg-2 ${styles.logoContainer}`}>
-            <img src="..\public\assets\LogoVMWoodWorking_1.jpg" alt="Logo" className={`${styles.logo} ${styles.logoHover}`} />
+            <img src={LogoVM} alt="Logo" className={`${styles.logo} ${styles.logoHover}`} />
           </div>
         </Link>
         <div className={`col col-12 col-lg-4 ${styles.titleContainer} d-flex align-items-center`}>
