@@ -37,8 +37,22 @@ const Checkout = () => {
                     phone: buyerInfo.phone
                 },
                 items: cart,
-                total 
+                total
             };
+
+            const emailPattern = /\S+@\S+\.\S+/;
+            if (!emailPattern.test(buyerInfo.email)) {
+                showNotification('error', 'Ingrese un correo electrónico válido');
+                setLoading(false);
+                return;
+            }
+
+            const phonePattern = /^[0-9]+$/;
+            if (!phonePattern.test(buyerInfo.phone)) {
+                showNotification('error', 'Ingrese un número de teléfono válido (solo números)');
+                setLoading(false);
+                return;
+            }
 
             const ids = cart.map(prod => prod.id);
             const productsCollection = query(collection(db, 'products'), where(documentId(), 'in', ids));
@@ -87,25 +101,34 @@ const Checkout = () => {
     }
 
     return (
-        <div className="text-center"> 
+        <div className="text-center">
             <h1 className="text-light">Checkout</h1>
-            <Form className="mx-auto w-25 mt-4"> 
+            <Form className="mx-auto w-25 mt-4">
                 <Form.Group controlId="formName">
                     <Form.Label className="text-light">Nombre</Form.Label>
-                    <Form.Control type="text" placeholder="Ingrese su nombre" name="name" value={buyerInfo.name} onChange={handleInputChange} />
+                    <Form.Control
+                        type="text"
+                        placeholder="Ingrese su nombre"
+                        name="name"
+                        value={buyerInfo.name}
+                        onChange={handleInputChange}
+                        pattern="[A-Za-z\s]+"
+                        title="Ingrese un nombre válido sin caracteres especiales"
+                        required
+                    />
                 </Form.Group>
 
-                <Form.Group controlId="formEmail" className="mt-3"> 
+                <Form.Group controlId="formEmail" className="mt-3">
                     <Form.Label className="text-light">Email</Form.Label>
                     <Form.Control type="email" placeholder="Ingrese su email" name="email" value={buyerInfo.email} onChange={handleInputChange} />
                 </Form.Group>
 
-                <Form.Group controlId="formPhone" className="mt-3"> 
+                <Form.Group controlId="formPhone" className="mt-3">
                     <Form.Label className="text-light">Teléfono</Form.Label>
                     <Form.Control type="tel" placeholder="Ingrese su teléfono" name="phone" value={buyerInfo.phone} onChange={handleInputChange} />
                 </Form.Group>
 
-                <Button variant="dark" onClick={createOrderHandler} className="mt-3"> 
+                <Button variant="dark" onClick={createOrderHandler} className="mt-3">
                     Generar orden
                 </Button>
             </Form>
