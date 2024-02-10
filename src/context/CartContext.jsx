@@ -16,7 +16,6 @@ export const CartProvider = ({ children }) => {
   const [total, setTotal] = useState(0);
 
   const addItem = (productToAdd, quantity) => {
-    console.log("Original Quantity:", quantity);
   
     const isValidQuantity = typeof quantity === 'number' && !isNaN(quantity);
   
@@ -26,8 +25,6 @@ export const CartProvider = ({ children }) => {
       const cartUpdated = cart.map((prod) => {
         if (prod.id === productToAdd.id) {
           const updatedQuantity = isValidQuantity ? quantity : 0;
-  
-          console.log("Updated Quantity:", updatedQuantity);
   
           return {
             ...prod,
